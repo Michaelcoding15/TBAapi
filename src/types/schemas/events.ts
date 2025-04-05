@@ -99,3 +99,20 @@ export const Team_Event_Status = z.object({
     alliance: Team_Event_Status_alliance.nullable(),
     playoff: Team_Event_Status_playoff.nullable()
 })
+
+export const Elimination_Alliance = z.object({
+    name: z.string().nullable(),
+    backup: z.object({
+        in: z.string(),
+        out: z.string()
+    }).nullable(),
+    declines: z.array(z.string()),
+    picks: z.array(z.string()),
+    status: z.object({
+        playoff_average: z.number(),
+        level: z.string(),
+        record: WLT_Record.nullable(),
+        current_level_record: WLT_Record.nullable(),
+        status: z.string()
+    })
+})
