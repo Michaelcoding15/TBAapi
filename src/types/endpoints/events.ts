@@ -7,7 +7,7 @@ import { Match, Match_Simple } from "../schemas/matches.js";
 const rankings = z.object({
     rankings: z.array(z.object({
         matches_played: z.number().int(),
-        qual_average: z.number().int().nullable(),
+        qual_average: z.number().nullable(),
         extra_stats: z.array(z.number()),
         sort_orders: z.array(z.number()).nullable(),
         record: WLT_Record.nullable(),
@@ -23,10 +23,10 @@ const rankings = z.object({
         precision: z.number(),
         name: z.string(),
     })),
-}).nullable()
+});
 
 const eventPoints = z.object({
-    description: z.record(z.string(), z.object({
+    points: z.record(z.string(), z.object({
         total: z.number().int(),
         alliance_points: z.number().int(),
         elim_points: z.number().int(),
@@ -36,8 +36,8 @@ const eventPoints = z.object({
     tiebreakers: z.record(z.string(), z.object({
         highest_qual_scores: z.array(z.number().int()),
         qual_points: z.number().int()
-    }))
-}).nullable()
+    }).partial()).optional()
+});
 
 export const eventEndpoints = {
     "/events/{year}": {
@@ -52,23 +52,23 @@ export const eventEndpoints = {
         schema: z.array(z.string()),
         arguments: z.tuple([z.number().int()])
     },
-    "/events/{event_key}": {
+    "/event/{event_key}": {
         schema: Event,
         arguments: z.tuple([z.string()])
     },
-    "/events/{event_key}/simple": {
+    "/event/{event_key}/simple": {
         schema: Event_Simple,
         arguments: z.tuple([z.string()])
     },
-    "/events/{event_key}/alliances": {
-        schema: z.array(Elimination_Alliance),
+    "/event/{event_key}/alliances": {
+        schema: z.array(Elimination_Alliance).nullable(),
         arguments: z.tuple([z.string()])
     },
     "/event/{event_key}/insights": {
         schema: z.object({
             qual: z.unknown(),
             playoff: z.unknown()
-        }),
+        }).nullable(),
         arguments: z.tuple([z.string()])
     },
     "/event/{event_key}/oprs": {
@@ -84,23 +84,23 @@ export const eventEndpoints = {
         arguments: z.tuple([z.string()])
     },
     "/event/{event_key}/predictions": {
-        schema: z.record(z.string(), z.unknown()),
+        schema: z.record(z.string(), z.unknown()).nullable(),
         arguments: z.tuple([z.string()])
     },
     "/event/{event_key}/rankings": {
-        schema: rankings,
+        schema: rankings.nullable(),
         arguments: z.tuple([z.string()])
     },
     "/event/{event_key}/district_points": {
-        schema: eventPoints,
+        schema: eventPoints.nullable(),
         arguments: z.tuple([z.string()])
     },
     "/event/{event_key}/regional_champs_pool_points": {
-        schema: eventPoints,
+        schema: eventPoints.nullable(),
         arguments: z.tuple([z.string()])
     },
     "/event/{event_key}/advancement_points": {
-        schema: eventPoints,
+        schema: eventPoints.nullable(),
         arguments: z.tuple([z.string()])
     },
     "/event/{event_key}/teams": {
@@ -127,7 +127,7 @@ export const eventEndpoints = {
         schema: z.array(Match_Simple),
         arguments: z.tuple([z.string()])
     },
-    "/event/{event_key}/keys": {
+    "/event/{event_key}/matches/keys": {
         schema: z.array(z.string()),
         arguments: z.tuple([z.string()])
     },
@@ -139,4 +139,4 @@ export const eventEndpoints = {
         schema: z.array(Media),
         arguments: z.tuple([z.string()])
     }
-} satisfies Endpoints
+} satisfies Endpoints;

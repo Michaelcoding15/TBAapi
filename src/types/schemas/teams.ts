@@ -1,4 +1,4 @@
-import { string, z } from "zod";
+import { z } from "zod";
 
 export const Team_Simple = z.object({
     key: z.string().regex(/frc\d+/),
@@ -12,14 +12,14 @@ export const Team_Simple = z.object({
 
 export const Team = z.object({
     postal_code: z.string().nullable(),
-    website: z.string().nullable(),
+    website: z.string().nullable().optional(),
     rookie_year: z.number().nullable()
 }).merge(Team_Simple);
 
 export const Award_Recipient = z.object({
     team_key: z.string().nullable(),
     awardee: z.string().nullable()
-})
+});
 
 export const Award = z.object({
     name: z.string(),
@@ -27,21 +27,21 @@ export const Award = z.object({
     event_key: z.string(),
     recipient_list: z.array(Award_Recipient),
     year: z.number().int()
-})
+});
 
 export const Team_Robot = z.object({
     year: z.number().int(),
-    name: z.string(),
+    robot_name: z.string(),
     key: z.string(),
     team_key: z.string()
-})
+});
 
 export const Media = z.object({
-    type: z.enum(["youtube", "cdphotothread", "imgur", "facebook-profile", "youtube-channel", "twitter-profile", "github-profile", "instagram-profile", "periscope-profile", "gitlab-profile", "grabcad", "instagram-image", "external-link", "avatar"]),
+    type: z.string(),
     foreign_key: z.string(),
-    details: z.record(z.any()).nullable(),
-    preferred: z.boolean(),
+    details: z.record(z.any()).nullable().optional(),
+    preferred: z.boolean().optional(),
     team_keys: z.array(z.string()),
-    direct_url: z.string(),
-    view_url: z.string()
-})
+    direct_url: z.string().optional(),
+    view_url: z.string().optional()
+});

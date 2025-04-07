@@ -1,19 +1,20 @@
 import { z } from "zod";
 
-export const District_List = z.object({
-    abbreviation: z.string(),
-    display_name: z.string(),
-    key: z.string(),
-    year: z.number().int()
+export const Regional_Advancement = z.object({
+    cmp: z.boolean(),
+    cmp_status: z.enum(["NotInvited", "PreQualified", "EventQualified", "PoolQualified", "Declined"]),
+    qualifying_event: z.string().optional(),
+    qualifying_award_name: z.string().optional(),
+    qualifying_pool_week: z.number().int().optional()
 });
 
-export const District_Ranking = z.object({
+export const Regional_Ranking = z.object({
     team_key: z.string(),
     rank: z.number().int(),
     rookie_bonus: z.number().int().optional(),
     point_total: z.number(),
+    single_event_bonus: z.number(),
     event_points: z.array(z.object({
-        district_cmp: z.boolean(),
         total: z.number(),
         alliance_points: z.number(),
         elim_points: z.number(),
@@ -21,9 +22,4 @@ export const District_Ranking = z.object({
         event_key: z.string(),
         qual_points: z.number()
     })).optional()
-});
-
-export const District_Advancement = z.object({
-    dcmp: z.boolean(),
-    cmp: z.boolean()
 });

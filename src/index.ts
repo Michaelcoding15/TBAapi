@@ -37,11 +37,15 @@ async function TBA<T extends TBAEndpoint>(endpoint: T, api_key: string, ...args:
 
     const json = await tryCatch(result.data.json());
     if (json.error) return {
-        data: null, error: new Error(`JSON didn't parse for endpoint ${endpoint}. Please contact the developers of the TBAapi package with this error: ${json.error.message}`)
+        data: null,
+        error: new Error(`JSON didn't parse for endpoint ${endpoint}. Please contact the developers of the TBAapi package with this error: ${json.error.message}`)
     };
 
     const schema = endpoints[endpoint].schema.safeParse(json.data);
-    if (!schema.success) return {data: null, error: new Error(`Schema for endpoint ${endpoint} didn't work. Please contact the developers of the TBAapi package with this error: ${schema.error.message}`)};
+    if (!schema.success) return {
+        data: null,
+        error: new Error(`Schema for endpoint ${endpoint} didn't work. Please contact the developers of the TBAapi package with this error: ${schema.error.message}`)
+    };
 
     return {data: schema.data, error: null};
 }

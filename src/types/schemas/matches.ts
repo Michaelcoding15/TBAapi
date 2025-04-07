@@ -26,7 +26,7 @@ export const matchScoreBreakdownYearsAlliances = {
         tote_points: z.number(),
         tote_set: z.boolean(),
         tote_stack: z.boolean()
-    }),
+    }).partial(),
     "2016": z.object({
         adjustPoints: z.number(),
         autoBoulderPoints: z.number(),
@@ -67,7 +67,7 @@ export const matchScoreBreakdownYearsAlliances = {
         towerFaceA: z.string(),
         towerFaceB: z.string(),
         towerFaceC: z.string()
-    }),
+    }).partial(),
     "2017": z.object({
         adjustPoints: z.number(),
         autoFuelHigh: z.number(),
@@ -103,7 +103,7 @@ export const matchScoreBreakdownYearsAlliances = {
         touchpadFar: z.string(),
         touchpadMiddle: z.string(),
         touchpadNear: z.string()
-    }),
+    }).partial(),
     "2018": z.object({
         adjustPoints: z.number(),
         autoOwnershipPoints: z.number(),
@@ -142,7 +142,7 @@ export const matchScoreBreakdownYearsAlliances = {
         vaultLevitatePlayed: z.number(),
         vaultLevitateTotal: z.number(),
         vaultPoints: z.number()
-    }),
+    }).partial(),
     "2019": z.object({
         adjustPoints: z.number(),
         autoPoints: z.number(),
@@ -195,7 +195,7 @@ export const matchScoreBreakdownYearsAlliances = {
         topRightRocketFar: z.string(),
         topRightRocketNear: z.string(),
         totalPoints: z.number()
-    }),
+    }).partial(),
     "2020": z.object({
         adjustPoints: z.number(),
         autoCellPoints: z.number(),
@@ -231,7 +231,7 @@ export const matchScoreBreakdownYearsAlliances = {
         teleopCellsOuter: z.number(),
         teleopPoints: z.number(),
         totalPoints: z.number()
-    }),
+    }).partial(),
     "2022": z.object({
         adjustPoints: z.number(),
         autoCargoLowerBlue: z.number(),
@@ -273,7 +273,7 @@ export const matchScoreBreakdownYearsAlliances = {
         teleopCargoUpperRed: z.number(),
         teleopPoints: z.number(),
         totalPoints: z.number()
-    }),
+    }).partial(),
     "2023": z.object({
         activationBonusAchieved: z.boolean(),
         adjustPoints: z.number(),
@@ -320,7 +320,7 @@ export const matchScoreBreakdownYearsAlliances = {
         teleopPoints: z.number(),
         totalChargeStationPoints: z.number(),
         totalPoints: z.number()
-    }),
+    }).partial(),
     "2024": z.object({
         adjustPoints: z.number(),
         autoAmpNoteCount: z.number(),
@@ -374,7 +374,7 @@ export const matchScoreBreakdownYearsAlliances = {
         trapCenterStage: z.boolean(),
         trapStageLeft: z.boolean(),
         trapStageRight: z.boolean()
-    }),
+    }).partial(),
     "2025": z.object({
         adjustPoints: z.number(),
         algaePoints: z.number(),
@@ -503,7 +503,7 @@ export const matchScoreBreakdownYearsAlliances = {
         }),
         totalPoints: z.number(),
         wallAlgaeCount: z.number()
-    })
+    }).partial()
 } satisfies { [key: string]: z.Schema };
 
 export const matchScoreBreakdownYearsMatches = {
@@ -550,7 +550,16 @@ export const matchScoreBreakdownYearsMatches = {
         blue: matchScoreBreakdownYearsAlliances["2025"],
     }),
 } satisfies { [key: string]: z.Schema };
-const a = Object.values(matchScoreBreakdownYearsAlliances);
+
+type Tuple<
+    T,
+    N extends number,
+    R extends readonly T[] = [],
+> = R["length"] extends N ? R : Tuple<T, N, readonly [T, ...R]>;
+type Values<T> = T extends { [key: string]: infer R } ? R : never;
+
+const p = Object.values(matchScoreBreakdownYearsAlliances) as unknown as Tuple<Values<typeof matchScoreBreakdownYearsMatches>, 10>;
+
 
 export const Match_alliance = z.object({
     score: z.number().transform(num => num !== -1 ? num : null).nullable(),
@@ -570,10 +579,9 @@ export const Match_Simple = z.object({
     time: z.number().nullable(),
     actual_time: z.number().nullable(),
     predicted_time: z.number().nullable(),
-})
+});
 
 export const Match = z.object({
-    // This is necessary because union requires a tuple. If you can find a more elegant solution, please tell me.
-    score_breakdown: z.union([a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10]]),
+    score_breakdown: z.union(p).nullable(),
     videos: z.array(z.object({type: z.string(), key: z.string()}))
 }).merge(Match_Simple);

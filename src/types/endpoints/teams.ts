@@ -39,7 +39,7 @@ export const teamEndpoints = {
         arguments: z.tuple([z.string()])
     },
     "/team/{team_key}/history": {
-        schema: z.object({ events: z.array(Event), awards: z.array(Award)}),
+        schema: z.object({events: z.array(Event), awards: z.array(Award)}),
         arguments: z.tuple([z.string()])
     },
     "/team/{team_key}/years_participated": {
@@ -79,7 +79,7 @@ export const teamEndpoints = {
         arguments: z.tuple([z.string(), z.number().int()])
     },
     "/team/{team_key}/events/{year}/statuses": {
-        schema: z.record(z.string(), Team_Event_Status),
+        schema: z.record(z.string(), Team_Event_Status.nullable()),
         arguments: z.tuple([z.string(), z.number().int()]),
     },
     "/team/{team_key}/event/{event_key}/matches": {
@@ -99,7 +99,7 @@ export const teamEndpoints = {
         arguments: z.tuple([z.string(), z.string()])
     },
     "/team/{team_key}/event/{event_key}/status": {
-        schema: z.array(Team_Event_Status),
+        schema: Team_Event_Status.nullable(),
         arguments: z.tuple([z.string(), z.string()])
     },
     "/team/{team_key}/awards": {
