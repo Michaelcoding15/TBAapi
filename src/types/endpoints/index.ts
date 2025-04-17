@@ -9,28 +9,28 @@ import { insightEndpoints } from "./insights.js";
 import { z } from "zod";
 
 const Search_Index = z.object({
-    teams: z.array(z.object({
-        key: z.string(),
-        nickname: z.string()
-    })),
-    events: z.array(z.object({
-        key: z.string(),
-        name: z.string()
-    }))
+	teams: z.array(z.object({
+		key: z.string(),
+		nickname: z.string(),
+	})),
+	events: z.array(z.object({
+		key: z.string(),
+		name: z.string(),
+	})),
 });
 
 export const endpoints = {
-    ...statusEndpoints,
-    ...teamEndpoints,
-    ...eventEndpoints,
-    ...matchEndpoints,
-    ...districtEndpoints,
-    ...regionalAdvancementEndpoints,
-    ...insightEndpoints,
-    "/search_index": {
-        schema: Search_Index,
-        arguments: z.tuple([])
-    }
+	...statusEndpoints,
+	...teamEndpoints,
+	...eventEndpoints,
+	...matchEndpoints,
+	...districtEndpoints,
+	...regionalAdvancementEndpoints,
+	...insightEndpoints,
+	"/search_index": {
+		schema: Search_Index,
+		arguments: z.tuple([]),
+	},
 
 } satisfies Endpoints;
 

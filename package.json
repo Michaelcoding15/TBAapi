@@ -7,9 +7,12 @@
   "scripts": {
     "test": "vitest --bail 1"
   },
+  "files": [
+    "/src"
+  ],
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "zod": "^3.24.2"
   },
