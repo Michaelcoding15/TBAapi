@@ -25,7 +25,7 @@ Find all the endpoints [here](https://www.thebluealliance.com/apidocs/v3).
 
 ## Coverage
 The wrapper covers all endpoints besides endpoints relating to Zebra Motionworks and Timeseries.
-This includes:
+The endpoints not covered include:
 * /event/{event_key}/matches/timeseries
 * /event/{event_key}/matches/timeseries
 * /match/{match_key}/timeseries
