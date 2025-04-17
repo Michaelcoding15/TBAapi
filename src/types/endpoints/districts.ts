@@ -7,7 +7,7 @@ import { Award, Team, Team_Simple } from "../schemas/teams.js";
 export const districtEndpoints = {
 	"/districts/{year}": {
 		schema: z.array(District_List),
-		arguments: z.tuple([z.number().int()]),
+		arguments: z.tuple([z.int()]),
 	},
 	"/district/{district_abbreviation}/history": {
 		schema: z.array(District_List),

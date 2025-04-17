@@ -4,13 +4,13 @@ export const District_List = z.object({
 	abbreviation: z.string(),
 	display_name: z.string(),
 	key: z.string(),
-	year: z.number().int(),
+	year: z.int(),
 });
 
 export const District_Ranking = z.object({
 	team_key: z.string(),
-	rank: z.number().int(),
-	rookie_bonus: z.number().int().optional(),
+	rank: z.int(),
+	rookie_bonus: z.int().optional(),
 	point_total: z.number(),
 	event_points: z.array(z.object({
 		district_cmp: z.boolean(),

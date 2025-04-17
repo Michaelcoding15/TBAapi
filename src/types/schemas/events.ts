@@ -13,17 +13,17 @@ export const Event_Simple = z.object({
 	key: z.string(),
 	name: z.string(),
 	event_code: z.string(),
-	event_type: z.number().int(),
+	event_type: z.int(),
 	district: District_List.nullable(),
 	city: z.string().nullable(),
 	state_prov: z.string().nullable(),
 	country: z.string().nullable(),
 	start_date: z.coerce.date(),
 	end_date: z.coerce.date(),
-	year: z.number().int(),
+	year: z.int(),
 });
 
-export const Event = z.object({
+export const Event = Event_Simple.extend({
 	short_name: z.string().nullable(),
 	event_type_string: z.string(),
 	week: z.number().nullable(),
@@ -41,29 +41,29 @@ export const Event = z.object({
 	webcasts: z.array(Webcast),
 	division_keys: z.array(z.string()),
 	parent_event_key: z.string().nullable(),
-	playoff_type: z.number().int().nullable(),
+	playoff_type: z.int().nullable(),
 	playoff_type_string: z.string().nullable(),
-}).merge(Event_Simple);
+})
 
 export const WLT_Record = z.object({
-	wins: z.number().int(),
-	losses: z.number().int(),
-	ties: z.number().int(),
+	wins: z.int(),
+	losses: z.int(),
+	ties: z.int(),
 });
 
 // Docs don't say it is nullable, but it has been null during testing
 export const Team_Event_Status_rank = z.object({
-	num_teams: z.number().int().nullable(),
+	num_teams: z.int().nullable(),
 	ranking: z.object({
-		matches_played: z.number().int().nullable(),
+		matches_played: z.int().nullable(),
 		qual_average: z.number().nullable().nullable(),
 		sort_orders: z.array(z.number()).nullable(),
-		rank: z.number().int().nullable(),
-		dq: z.number().int().nullable(),
+		rank: z.int().nullable(),
+		dq: z.int().nullable(),
 		team_key: z.string().nullable(),
 	}).optional(),
 	sort_order_info: z.array(z.object({
-		precision: z.number().int().nullable(),
+		precision: z.int().nullable(),
 		name: z.string().nullable(),
 	})).nullable(),
 	status: z.string().nullable(),
@@ -76,9 +76,9 @@ export const Team_Event_Status_alliance_backup = z.object({
 
 export const Team_Event_Status_alliance = z.object({
 	name: z.string().nullable().optional(),
-	number: z.number().int(),
+	number: z.int(),
 	backup: Team_Event_Status_alliance_backup.nullable().optional(),
-	pick: z.number().int().min(-1).max(3),
+	pick: z.int().min(-1).max(3),
 });
 
 export const Team_Event_Status_playoff = z.object({

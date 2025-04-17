@@ -8,7 +8,7 @@ import { endpoints, TBAEndpoint, TBAEndpoints } from "./types/endpoints/index.js
  * @param api_key The api key given to you from The Blue Alliance.
  * @returns A function that can request from any endpoint in the TBA api. Go to the TBA api docs to see more information on endpoints and arguments required.
  */
-export function createTBACaller(api_key: string) {
+export function createTBACaller(api_key: string): <T extends TBAEndpoint>(endpoint: T, ...args: z.infer<TBAEndpoints[T]["arguments"]>) => Promise<Result<z.infer<TBAEndpoints[T]["schema"]>>> {
 	return async <T extends TBAEndpoint>(endpoint: T, ...args: z.infer<TBAEndpoints[T]["arguments"]>) => await TBA(endpoint, api_key, ...args);
 }
 

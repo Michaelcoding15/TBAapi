@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const Team_Simple = z.object({
 	key: z.string().regex(/frc\d+/),
-	team_number: z.number().int(),
+	team_number: z.int(),
 	nickname: z.string(),
 	name: z.string(),
 	city: z.string().nullable(),
@@ -10,11 +10,11 @@ export const Team_Simple = z.object({
 	country: z.string().nullable(),
 });
 
-export const Team = z.object({
+export const Team = Team_Simple.extend({
 	postal_code: z.string().nullable(),
 	website: z.string().nullable().optional(),
 	rookie_year: z.number().nullable(),
-}).merge(Team_Simple);
+})
 
 export const Award_Recipient = z.object({
 	team_key: z.string().nullable(),
@@ -23,14 +23,14 @@ export const Award_Recipient = z.object({
 
 export const Award = z.object({
 	name: z.string(),
-	award_type: z.number().int(),
+	award_type: z.int(),
 	event_key: z.string(),
 	recipient_list: z.array(Award_Recipient),
-	year: z.number().int(),
+	year: z.int(),
 });
 
 export const Team_Robot = z.object({
-	year: z.number().int(),
+	year: z.int(),
 	robot_name: z.string(),
 	key: z.string(),
 	team_key: z.string(),
@@ -39,7 +39,7 @@ export const Team_Robot = z.object({
 export const Media = z.object({
 	type: z.string(),
 	foreign_key: z.string(),
-	details: z.record(z.any()).nullable().optional(),
+	details: z.record(z.any(), z.any()).nullable().optional(),
 	preferred: z.boolean().optional(),
 	team_keys: z.array(z.string()),
 	direct_url: z.string().optional(),

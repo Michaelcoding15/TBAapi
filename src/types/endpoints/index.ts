@@ -19,7 +19,14 @@ const Search_Index = z.object({
 	})),
 });
 
-export const endpoints = {
+export const searchIndex = {
+	"/search_index": {
+		schema: Search_Index,
+		arguments: z.tuple([]),
+	},
+}
+
+export const endpoints: typeof statusEndpoints & typeof teamEndpoints & typeof eventEndpoints & typeof matchEndpoints & typeof districtEndpoints & typeof regionalAdvancementEndpoints & typeof insightEndpoints & typeof searchIndex = {
 	...statusEndpoints,
 	...teamEndpoints,
 	...eventEndpoints,
@@ -27,11 +34,7 @@ export const endpoints = {
 	...districtEndpoints,
 	...regionalAdvancementEndpoints,
 	...insightEndpoints,
-	"/search_index": {
-		schema: Search_Index,
-		arguments: z.tuple([]),
-	},
-
+	...searchIndex
 } satisfies Endpoints;
 
 export type TBAEndpoints = typeof endpoints;

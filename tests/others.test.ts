@@ -5,12 +5,14 @@ import { districtEndpoints } from "../src/types/endpoints/districts.js";
 import { insightEndpoints } from "../src/types/endpoints/insights.js";
 import { matchEndpoints } from "../src/types/endpoints/matches.js";
 import { regionalAdvancementEndpoints } from "../src/types/endpoints/regionalAdvancements.js";
+import { searchIndex } from "../src/types/endpoints/index.js";
 
 type OtherEndpoints =
 	typeof districtEndpoints
 	& typeof insightEndpoints
 	& typeof matchEndpoints
 	& typeof regionalAdvancementEndpoints
+  & typeof searchIndex
 
 const tests = {
 	"/districts/{year}": [YEAR_NUM],
@@ -30,6 +32,7 @@ const tests = {
 	"/match/{match_key}/simple": [MATCH_KEY],
 	"/regional_advancement/{year}": [YEAR_NUM],
 	"/regional_advancement/{year}/rankings": [YEAR_NUM],
+	"/search_index": []
 } satisfies { [key in keyof OtherEndpoints]: z.infer<(OtherEndpoints)[key]["arguments"]> };
 
 for (const endpoint of getKeys(tests)) {

@@ -68,19 +68,19 @@ export const teamEndpoints = {
 	},
 	"/team/{team_key}/events/{year}": {
 		schema: z.array(Event),
-		arguments: z.tuple([z.string(), z.number().int()]),
+		arguments: z.tuple([z.string(), z.int()]),
 	},
 	"/team/{team_key}/events/{year}/simple": {
 		schema: z.array(Event_Simple),
-		arguments: z.tuple([z.string(), z.number().int()]),
+		arguments: z.tuple([z.string(), z.int()]),
 	},
 	"/team/{team_key}/events/{year}/keys": {
 		schema: z.array(z.string()),
-		arguments: z.tuple([z.string(), z.number().int()]),
+		arguments: z.tuple([z.string(), z.int()]),
 	},
 	"/team/{team_key}/events/{year}/statuses": {
 		schema: z.record(z.string(), Team_Event_Status.nullable()),
-		arguments: z.tuple([z.string(), z.number().int()]),
+		arguments: z.tuple([z.string(), z.int()]),
 	},
 	"/team/{team_key}/event/{event_key}/matches": {
 		schema: z.array(Match),
@@ -132,7 +132,7 @@ export const teamEndpoints = {
 	},
 	"/team/{team_key}/media/tag/{media_tag}/{year}": {
 		schema: z.array(Media),
-		arguments: z.tuple([z.string(), z.string(), z.number().int()]),
+		arguments: z.tuple([z.string(), z.string(), z.int()]),
 	},
 	"/team/{team_key}/social_media": {
 		schema: z.array(Media),

@@ -9,7 +9,7 @@ export const LeaderboardInsights = z.object({
 		key_type: z.enum(["team", "event", "match"]),
 	}),
 	name: z.string(),
-	year: z.number().int(),
+	year: z.int(),
 });
 
 export const NotablesInsight = z.object({
@@ -20,5 +20,5 @@ export const NotablesInsight = z.object({
 		})),
 	}),
 	name: z.string(),
-	year: z.number().int(),
+	year: z.int(),
 });

@@ -6,13 +6,13 @@ import { Match, Match_Simple } from "../schemas/matches.js";
 
 const rankings = z.object({
 	rankings: z.array(z.object({
-		matches_played: z.number().int(),
+		matches_played: z.int(),
 		qual_average: z.number().nullable(),
 		extra_stats: z.array(z.number()),
 		sort_orders: z.array(z.number()).nullable(),
 		record: WLT_Record.nullable(),
-		rank: z.number().int(),
-		dq: z.number().int(),
+		rank: z.int(),
+		dq: z.int(),
 		team_key: z.string(),
 	})),
 	extra_stats_info: z.array(z.object({
@@ -27,30 +27,30 @@ const rankings = z.object({
 
 const eventPoints = z.object({
 	points: z.record(z.string(), z.object({
-		total: z.number().int(),
-		alliance_points: z.number().int(),
-		elim_points: z.number().int(),
-		award_points: z.number().int(),
-		qual_points: z.number().int(),
+		total: z.int(),
+		alliance_points: z.int(),
+		elim_points: z.int(),
+		award_points: z.int(),
+		qual_points: z.int(),
 	})),
 	tiebreakers: z.record(z.string(), z.object({
-		highest_qual_scores: z.array(z.number().int()),
-		qual_points: z.number().int(),
+		highest_qual_scores: z.array(z.int()),
+		qual_points: z.int(),
 	}).partial()).optional(),
 });
 
 export const eventEndpoints = {
 	"/events/{year}": {
 		schema: z.array(Event),
-		arguments: z.tuple([z.number().int()]),
+		arguments: z.tuple([z.int()]),
 	},
 	"/events/{year}/simple": {
 		schema: z.array(Event_Simple),
-		arguments: z.tuple([z.number().int()]),
+		arguments: z.tuple([z.int()]),
 	},
 	"/events/{year}/keys": {
 		schema: z.array(z.string()),
-		arguments: z.tuple([z.number().int()]),
+		arguments: z.tuple([z.int()]),
 	},
 	"/event/{event_key}": {
 		schema: Event,

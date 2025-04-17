@@ -580,7 +580,7 @@ export const Match_Simple = z.object({
 	predicted_time: z.number().nullable(),
 });
 
-export const Match = z.object({
+export const Match = Match_Simple.extend({
 	score_breakdown: z.union(p).nullable(),
 	videos: z.array(z.object({ type: z.string(), key: z.string() })),
-}).merge(Match_Simple);
+})

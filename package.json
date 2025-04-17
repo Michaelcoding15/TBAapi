@@ -1,11 +1,13 @@
 {
   "name": "tbaapi",
   "version": "0.0.1",
-  "description": "",
+  "description": "A wrapper to fetch data from The Blue Alliance API",
   "type": "module",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "vitest --bail 1"
+    "test": "vitest --bail 1",
+    "build": "tsc"
   },
   "files": [
     "/src"
@@ -14,7 +16,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "zod": "^3.24.2"
+    "zod": "4.0.0-beta.20250415T232143"
   },
   "devDependencies": {
     "dotenv": "^16.4.7",
