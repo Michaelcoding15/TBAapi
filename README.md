@@ -2,6 +2,10 @@
 
 > Request data from The Blue Alliance API
 
+
+> [!WARNING]  
+> This package relies on a beta version of Zod, so it might be unstable until Zod 4.0 comes out.
+
 ## Install
 ```bash
 npm install tbaapi
