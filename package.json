@@ -1,5 +1,5 @@
 {
-  "name": "tbaapi",
+  "name": "tbarequest",
   "version": "0.0.1",
   "description": "A wrapper to fetch data from The Blue Alliance API",
   "type": "module",
@@ -9,7 +9,7 @@
     "test": "vitest --bail 1",
     "build": "tsc"
   },
-  "repository": "https://github.com/Michaelcoding15/TBAapi",
+  "repository": "https://github.com/Michaelcoding15/TBArequest",
   "files": [
     "/dist"
   ],

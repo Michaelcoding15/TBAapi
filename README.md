@@ -1,6 +1,6 @@
-# TBAapi
+# TBArequest
 
-> Request data from The Blue Alliance API
+> Unofficial wrapper to request data from The Blue Alliance API
 
 
 > [!WARNING]  
@@ -8,7 +8,7 @@
 
 ## Install
 ```bash
-npm install tbaapi
+npm install tbarequest
 ```
 
 ## Usage
