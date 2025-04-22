@@ -15,7 +15,7 @@ npm install tbarequest
 Use the `createTBACaller` function to create a function that can call the API.
 
 ```ts
-import { createTBACaller } from "./index";
+import { createTBACaller } from "tbarequest";
 
 const tba = createTBACaller("api_key")
 
