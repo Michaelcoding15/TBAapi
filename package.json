@@ -9,6 +9,7 @@
     "test": "vitest --bail 1",
     "build": "tsc"
   },
+  "repository": "https://github.com/Michaelcoding15/TBAapi",
   "files": [
     "/dist"
   ],
