@@ -13,7 +13,7 @@
   "files": [
     "/dist"
   ],
-  "keywords": [],
+  "keywords": ["frc", "tba", "thebluealliance", "firstrobotics"],
   "author": "",
   "license": "MIT",
   "dependencies": {
