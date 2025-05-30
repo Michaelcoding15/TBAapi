@@ -1,24 +1,24 @@
-import { z } from "zod";
+import { type } from "arktype";
 
-export const LeaderboardInsights = z.object({
-	data: z.object({
-		rankings: z.array(z.object({
-			value: z.number(),
-			keys: z.array(z.string()),
-		})),
-		key_type: z.enum(["team", "event", "match"]),
-	}),
-	name: z.string(),
-	year: z.int(),
+export const LeaderboardInsights = type({
+	data: {
+		rankings: type({
+			value: "number",
+			keys: "string[]",
+		}).array(),
+		key_type: "'team' | 'event' | 'match'",
+	},
+	name: "string",
+	year: "number",
 });
 
-export const NotablesInsight = z.object({
-	data: z.object({
-		entries: z.array(z.object({
-			context: z.array(z.string()),
-			team_key: z.string(),
-		})),
-	}),
-	name: z.string(),
-	year: z.int(),
+export const NotablesInsight = type({
+	data: {
+		entries: type({
+			context: "string[]",
+			team_key: "string",
+		}).array(),
+	},
+	name: "string",
+	year: "number",
 });

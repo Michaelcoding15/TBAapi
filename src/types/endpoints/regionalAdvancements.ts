@@ -1,14 +1,15 @@
 import { Endpoints } from "../index.js";
-import { z } from "zod";
 import { Regional_Advancement, Regional_Ranking } from "../schemas/regionalAdvancements.js";
+import { type } from "arktype";
 
 export const regionalAdvancementEndpoints = {
 	"/regional_advancement/{year}": {
-		schema: z.record(z.string(), Regional_Advancement).nullable(),
-		arguments: z.tuple([z.int()]),
+		schema: type({ "[string]": Regional_Advancement }),
+		arguments: type(["number"]),
+		optional: true,
 	},
 	"/regional_advancement/{year}/rankings": {
-		schema: z.array(Regional_Ranking),
-		arguments: z.tuple([z.int()]),
+		schema: Regional_Ranking.array(),
+		arguments: type(["number"]),
 	},
 } satisfies Endpoints;

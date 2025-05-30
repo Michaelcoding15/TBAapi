@@ -1,29 +1,29 @@
-import { z } from "zod";
+import { type } from "arktype";
 
-export const District_List = z.object({
-	abbreviation: z.string(),
-	display_name: z.string(),
-	key: z.string(),
-	year: z.int(),
+export const District_List = type({
+	abbreviation: "string",
+	display_name: "string",
+	key: "string",
+	year: "number",
 });
 
-export const District_Ranking = z.object({
-	team_key: z.string(),
-	rank: z.int(),
-	rookie_bonus: z.int().optional(),
-	point_total: z.number(),
-	event_points: z.array(z.object({
-		district_cmp: z.boolean(),
-		total: z.number(),
-		alliance_points: z.number(),
-		elim_points: z.number(),
-		award_points: z.number(),
-		event_key: z.string(),
-		qual_points: z.number(),
-	})).optional(),
+export const District_Ranking = type({
+	team_key: "string",
+	rank: "number",
+	rookie_bonus: "number?",
+	point_total: "number",
+	event_point: type({
+		district_cmp: "boolean",
+		total: "number",
+		alliance_points: "number",
+		elim_points: "number",
+		award_points: "number",
+		event_key: "string",
+		qual_points: "number",
+	}).array().optional(),
 });
 
-export const District_Advancement = z.object({
-	dcmp: z.boolean(),
-	cmp: z.boolean(),
+export const District_Advancement = type({
+	dcmp: "boolean",
+	cmp: "boolean",
 });

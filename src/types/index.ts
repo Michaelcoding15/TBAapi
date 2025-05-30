@@ -1,3 +1,3 @@
-import { z } from "zod";
+import { Type } from "arktype";
 
-export type Endpoints = { [key: string]: { schema: z.Schema, arguments: z.Schema | null } }
+export type Endpoints = { [key: string]: { schema: Type, arguments: Type<[...unknown[]]>, optional?: boolean } }

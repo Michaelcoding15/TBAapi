@@ -1,14 +1,14 @@
-import { Endpoints } from "../index.js";
-import { z } from "zod";
 import { LeaderboardInsights, NotablesInsight } from "../schemas/insights.js";
+import { Endpoints } from "../index.js";
+import { type } from "arktype";
 
 export const insightEndpoints = {
 	"/insights/leaderboards/{year}": {
-		schema: z.array(LeaderboardInsights),
-		arguments: z.tuple([z.int()]),
+		schema: LeaderboardInsights.array(),
+		arguments: type(["number"]),
 	},
 	"/insights/notables/{year}": {
-		schema: z.array(NotablesInsight),
-		arguments: z.tuple([z.int()]),
+		schema: NotablesInsight.array(),
+		arguments: type(["number"]),
 	},
 } satisfies Endpoints;

@@ -1,6 +1,5 @@
 import { expect, test } from "vitest";
 import { DISTRICT_ABBR, DISTRICT_KEY, getKeys, MATCH_KEY, TBA, YEAR_NUM } from "./index.js";
-import { z } from "zod";
 import { districtEndpoints } from "../src/types/endpoints/districts.js";
 import { insightEndpoints } from "../src/types/endpoints/insights.js";
 import { matchEndpoints } from "../src/types/endpoints/matches.js";
@@ -12,7 +11,7 @@ type OtherEndpoints =
 	& typeof insightEndpoints
 	& typeof matchEndpoints
 	& typeof regionalAdvancementEndpoints
-  & typeof searchIndex
+	& typeof searchIndex
 
 const tests = {
 	"/districts/{year}": [YEAR_NUM],
@@ -32,8 +31,8 @@ const tests = {
 	"/match/{match_key}/simple": [MATCH_KEY],
 	"/regional_advancement/{year}": [YEAR_NUM],
 	"/regional_advancement/{year}/rankings": [YEAR_NUM],
-	"/search_index": []
-} satisfies { [key in keyof OtherEndpoints]: z.infer<(OtherEndpoints)[key]["arguments"]> };
+	"/search_index": [],
+} satisfies { [key in keyof OtherEndpoints]: (OtherEndpoints)[key]["arguments"]["infer"] };
 
 for (const endpoint of getKeys(tests)) {
 	test(endpoint, async () => {

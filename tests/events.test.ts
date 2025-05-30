@@ -1,6 +1,5 @@
 import { expect, test } from "vitest";
 import { EVENT_KEY, getKeys, TBA, YEAR_NUM } from "./index.js";
-import { z } from "zod";
 import { eventEndpoints } from "../src/types/endpoints/events.js";
 
 const tests = {
@@ -27,7 +26,7 @@ const tests = {
 	"/event/{event_key}/matches/keys": [EVENT_KEY],
 	"/event/{event_key}/awards": [EVENT_KEY],
 	"/event/{event_key}/team_media": [EVENT_KEY],
-} satisfies { [key in keyof typeof eventEndpoints]: z.infer<(typeof eventEndpoints)[key]["arguments"]> };
+} satisfies { [key in keyof typeof eventEndpoints]: (typeof eventEndpoints)[key]["arguments"]["infer"] };
 
 for (const endpoint of getKeys(tests)) {
 	test(endpoint, async () => {

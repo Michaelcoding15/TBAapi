@@ -1,142 +1,149 @@
 import { Endpoints } from "../index.js";
-import { z } from "zod";
 import { Elimination_Alliance, Event, Event_Simple, Team_Event_Status, WLT_Record } from "../schemas/events.js";
 import { Award, Media, Team, Team_Simple } from "../schemas/teams.js";
 import { Match, Match_Simple } from "../schemas/matches.js";
+import { type } from "arktype";
 
-const rankings = z.object({
-	rankings: z.array(z.object({
-		matches_played: z.int(),
-		qual_average: z.number().nullable(),
-		extra_stats: z.array(z.number()),
-		sort_orders: z.array(z.number()).nullable(),
-		record: WLT_Record.nullable(),
-		rank: z.int(),
-		dq: z.int(),
-		team_key: z.string(),
-	})),
-	extra_stats_info: z.array(z.object({
-		precision: z.number(),
-		name: z.string(),
-	})),
-	sort_order_info: z.array(z.object({
-		precision: z.number(),
-		name: z.string(),
-	})),
+const rankings = type({
+	rankings: type({
+		matches_played: "number",
+		qual_average: "number | null",
+		extra_stats: "number[]",
+		sort_orders: "number[] | null",
+		record: type(WLT_Record, "|", "null"),
+		rank: "number",
+		dq: "number",
+		team_key: "string",
+	}).array(),
+
+	extra_stats_info: type({
+		precision: "number",
+		name: "string",
+	}).array(),
+
+	sort_order_info: type({
+		precision: "number",
+		name: "string",
+	}).array(),
 });
 
-const eventPoints = z.object({
-	points: z.record(z.string(), z.object({
-		total: z.int(),
-		alliance_points: z.int(),
-		elim_points: z.int(),
-		award_points: z.int(),
-		qual_points: z.int(),
-	})),
-	tiebreakers: z.record(z.string(), z.object({
-		highest_qual_scores: z.array(z.int()),
-		qual_points: z.int(),
-	}).partial()).optional(),
+const eventPoints = type({
+	points: type({
+		"[string]": type({
+			total: "number",
+			alliance_points: "number",
+			elim_points: "number",
+			award_points: "number",
+			qual_points: "number",
+		}),
+	}),
+
+	"tiebreakers?": type({
+		"[string]": type({
+			highest_qual_scores: "number[]",
+			qual_points: "number",
+		}).partial(),
+	}),
 });
 
 export const eventEndpoints = {
 	"/events/{year}": {
-		schema: z.array(Event),
-		arguments: z.tuple([z.int()]),
+		schema: Event.array(),
+		arguments: type(["number"]),
 	},
 	"/events/{year}/simple": {
-		schema: z.array(Event_Simple),
-		arguments: z.tuple([z.int()]),
+		schema: Event_Simple.array(),
+		arguments: type(["number"]),
 	},
 	"/events/{year}/keys": {
-		schema: z.array(z.string()),
-		arguments: z.tuple([z.int()]),
+		schema: type("string[]"),
+		arguments: type(["number"]),
 	},
 	"/event/{event_key}": {
 		schema: Event,
-		arguments: z.tuple([z.string()]),
+		arguments: type(["string"]),
 	},
 	"/event/{event_key}/simple": {
 		schema: Event_Simple,
-		arguments: z.tuple([z.string()]),
+		arguments: type(["string"]),
 	},
 	"/event/{event_key}/alliances": {
-		schema: z.array(Elimination_Alliance).nullable(),
-		arguments: z.tuple([z.string()]),
+		schema: type(Elimination_Alliance.array(), "|", "null"),
+		arguments: type(["string"]),
 	},
 	"/event/{event_key}/insights": {
-		schema: z.object({
-			qual: z.unknown(),
-			playoff: z.unknown(),
-		}).nullable(),
-		arguments: z.tuple([z.string()]),
+		schema: type({
+			qual: "unknown",
+			playoff: "unknown",
+		}, "|", "null"),
+		arguments: type(["string"]),
 	},
 	"/event/{event_key}/oprs": {
-		schema: z.object({
-			oprs: z.record(z.string(), z.number()),
-			dprs: z.record(z.string(), z.number()),
-			ccwms: z.record(z.string(), z.number()),
+		schema: type({
+			oprs: { "[string]": "number" },
+			dprs: { "[string]": "number" },
+			ccwms: { "[string]": "number" },
 		}),
-		arguments: z.tuple([z.string()]),
+		arguments: type(["string"]),
 	},
 	"/event/{event_key}/coprs": {
-		schema: z.record(z.string(), z.record(z.string(), z.number())),
-		arguments: z.tuple([z.string()]),
+		schema: type({ "[string]": { "[string]": "number" } }),
+		arguments: type(["string"]),
 	},
 	"/event/{event_key}/predictions": {
-		schema: z.record(z.string(), z.unknown()).nullable(),
-		arguments: z.tuple([z.string()]),
+		schema: type({ "[string]": "unknown" }, "|", "null"),
+		arguments: type(["string"]),
 	},
 	"/event/{event_key}/rankings": {
-		schema: rankings.nullable(),
-		arguments: z.tuple([z.string()]),
+		schema: type(rankings, "|", "null"),
+		arguments: type(["string"]),
 	},
 	"/event/{event_key}/district_points": {
-		schema: eventPoints.nullable(),
-		arguments: z.tuple([z.string()]),
+		schema: type(eventPoints, "|", "null"),
+		arguments: type(["string"]),
 	},
 	"/event/{event_key}/regional_champs_pool_points": {
-		schema: eventPoints.nullable(),
-		arguments: z.tuple([z.string()]),
+		schema: type(eventPoints, "|", "null"),
+		arguments: type(["string"]),
 	},
 	"/event/{event_key}/advancement_points": {
-		schema: eventPoints.nullable(),
-		arguments: z.tuple([z.string()]),
+		schema: type(eventPoints, "|", "null"),
+		arguments: type(["string"]),
 	},
 	"/event/{event_key}/teams": {
-		schema: z.array(Team),
-		arguments: z.tuple([z.string()]),
+		schema: Team.array(),
+		arguments: type(["string"]),
 	},
 	"/event/{event_key}/teams/simple": {
-		schema: z.array(Team_Simple),
-		arguments: z.tuple([z.string()]),
+		schema: Team_Simple.array(),
+		arguments: type(["string"]),
 	},
 	"/event/{event_key}/teams/keys": {
-		schema: z.array(z.string()),
-		arguments: z.tuple([z.string()]),
+		schema: type("string[]"),
+		arguments: type(["string"]),
 	},
 	"/event/{event_key}/teams/statuses": {
-		schema: z.record(z.string(), Team_Event_Status),
-		arguments: z.tuple([z.string()]),
+		schema: type({ "[string]": Team_Event_Status }),
+		arguments: type(["string"]),
 	},
 	"/event/{event_key}/matches": {
-		schema: z.array(Match),
-		arguments: z.tuple([z.string()]),
+		schema: Match.array(),
+		arguments: type(["string"]),
 	},
 	"/event/{event_key}/matches/simple": {
-		schema: z.array(Match_Simple),
-		arguments: z.tuple([z.string()]),
+		schema: Match_Simple.array(),
+		arguments: type(["string"]),
 	},
 	"/event/{event_key}/matches/keys": {
-		schema: z.array(z.string()),
-		arguments: z.tuple([z.string()]),
+		schema: type("string[]"),
+		arguments: type(["string"]),
 	},
 	"/event/{event_key}/awards": {
-		schema: z.array(Award),
-		arguments: z.tuple([z.string()]),
+		schema: Award.array(),
+		arguments: type(["string"]),
 	},
 	"/event/{event_key}/team_media": {
-		schema: z.array(Media),
-		arguments: z.tuple([z.string()]),
+		schema: Media.array(),
+		arguments: type(["string"]),
 	},
 } satisfies Endpoints;

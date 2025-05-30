@@ -1,118 +1,117 @@
-import { z } from "zod";
 import { District_List } from "./districts.js";
+import { type } from "arktype";
 
-export const Webcast = z.object({
-	type: z.enum(["youtube", "twitch", "ustream", "iframe", "html5", "rtmp", "livestream", "direct_link", "mms", "justin", "stemtv", "dacast"],
-	),
-	channel: z.string(),
-	date: z.coerce.date().nullable().optional(),
-	file: z.string().nullable().optional(),
+export const Webcast = type({
+	type: "'youtube' | 'twitch' | 'ustream' | 'iframe' | 'html5' | 'rtmp' | 'livestream' | 'direct_link' | 'mms' | 'justin' | 'stemtv' | 'dacast'",
+	channel: "string",
+	"date?": "string | null",
+	file: "(string | null)?",
 });
 
-export const Event_Simple = z.object({
-	key: z.string(),
-	name: z.string(),
-	event_code: z.string(),
-	event_type: z.int(),
-	district: District_List.nullable(),
-	city: z.string().nullable(),
-	state_prov: z.string().nullable(),
-	country: z.string().nullable(),
-	start_date: z.coerce.date(),
-	end_date: z.coerce.date(),
-	year: z.int(),
+export const Event_Simple = type({
+	key: "string",
+	name: "string",
+	event_code: "string",
+	event_type: "number",
+	district: type(District_List, "|", "null"),
+	city: "string | null",
+	state_prov: "string | null",
+	country: "string | null",
+	start_date: "string",
+	end_date: "string",
+	year: "number",
 });
 
-export const Event = Event_Simple.extend({
-	short_name: z.string().nullable(),
-	event_type_string: z.string(),
-	week: z.number().nullable(),
-	address: z.string().nullable(),
-	postal_code: z.string().nullable(),
-	gmaps_place_id: z.string().nullable(),
-	gmaps_url: z.string().nullable(),
-	lat: z.number().nullable(),
-	lng: z.number().nullable(),
-	location_name: z.string().nullable(),
-	timezone: z.string().nullable(),
-	website: z.string().nullable(),
-	first_event_id: z.string().nullable(),
-	first_event_code: z.string().nullable(),
-	webcasts: z.array(Webcast),
-	division_keys: z.array(z.string()),
-	parent_event_key: z.string().nullable(),
-	playoff_type: z.int().nullable(),
-	playoff_type_string: z.string().nullable(),
-})
+export const Event = Event_Simple.and({
+	short_name: "string | null",
+	event_type_string: "string",
+	week: "number | null",
+	address: "string | null",
+	postal_code: "string | null",
+	gmaps_place_id: "string | null",
+	gmaps_url: "string | null",
+	lat: "number | null",
+	lng: "number | null",
+	location_name: "string | null",
+	timezone: "string | null",
+	website: "string | null",
+	first_event_id: "string | null",
+	first_event_code: "string | null",
+	webcasts: Webcast.array(),
+	division_keys: "string[]",
+	parent_event_key: "string | null",
+	playoff_type: "number | null",
+	playoff_type_string: "string | null",
+});
 
-export const WLT_Record = z.object({
-	wins: z.int(),
-	losses: z.int(),
-	ties: z.int(),
+export const WLT_Record = type({
+	wins: "number",
+	losses: "number",
+	ties: "number",
 });
 
 // Docs don't say it is nullable, but it has been null during testing
-export const Team_Event_Status_rank = z.object({
-	num_teams: z.int().nullable(),
-	ranking: z.object({
-		matches_played: z.int().nullable(),
-		qual_average: z.number().nullable().nullable(),
-		sort_orders: z.array(z.number()).nullable(),
-		rank: z.int().nullable(),
-		dq: z.int().nullable(),
-		team_key: z.string().nullable(),
+export const Team_Event_Status_rank = type({
+	num_teams: "number | null",
+	ranking: type({
+		matches_played: "number | null",
+		qual_average: "number | null",
+		sort_orders: "number[] | null",
+		rank: "number | null",
+		dq: "number | null",
+		team_key: "string | null",
 	}).optional(),
-	sort_order_info: z.array(z.object({
-		precision: z.int().nullable(),
-		name: z.string().nullable(),
-	})).nullable(),
-	status: z.string().nullable(),
+	sort_order_info: type({
+		precision: "number | null",
+		name: "string | null",
+	}, "|", "null").array(),
+	status: "string | null",
 }).partial();
 
-export const Team_Event_Status_alliance_backup = z.object({
-	in: z.string().optional(),
-	out: z.string().optional(),
+export const Team_Event_Status_alliance_backup = type({
+	in: "string?",
+	out: "string?",
 });
 
-export const Team_Event_Status_alliance = z.object({
-	name: z.string().nullable().optional(),
-	number: z.int(),
-	backup: Team_Event_Status_alliance_backup.nullable().optional(),
-	pick: z.int().min(-1).max(3),
+export const Team_Event_Status_alliance = type({
+	name: "(string | null)?",
+	number: "number",
+	backup: type(Team_Event_Status_alliance_backup, "|", "null").optional(),
+	pick: "number",
 });
 
-export const Team_Event_Status_playoff = z.object({
-	level: z.enum(["qm", "ef", "qf", "sf", "f"]).optional(),
-	current_level_record: WLT_Record.nullable().optional(),
-	record: WLT_Record.nullable().optional(),
-	status: z.enum(["won", "eliminated", "playing"]).optional(),
-	playoff_average: z.number().nullable().optional(),
+export const Team_Event_Status_playoff = type({
+	"level?": "'qm' | 'ef' | 'qf' | 'sf' | 'f'",
+	current_level_record: type(WLT_Record, "|", "null").optional(),
+	record: type(WLT_Record, "|", "null").optional(),
+	"status?": "'won' | 'eliminated' | 'playing'",
+	"playoff_average?": "number | null",
 });
 
-export const Team_Event_Status = z.object({
-	alliance_status_str: z.string().optional(),
-	playoff_status_str: z.string().optional(),
-	overall_status_str: z.string().optional(),
-	next_match_key: z.string().nullable().optional(),
-	last_match_key: z.string().nullable().optional(),
-	qual: Team_Event_Status_rank.nullable().optional(),
-	alliance: Team_Event_Status_alliance.nullable().optional(),
-	playoff: Team_Event_Status_playoff.nullable().optional(),
+export const Team_Event_Status = type({
+	alliance_status_str: "string?",
+	playoff_status_str: "string?",
+	overall_status_str: "string?",
+	next_match_key: "(string | null)?",
+	last_match_key: "(string | null)?",
+	playoff: type(Team_Event_Status_playoff, "|", "null").optional(),
+	qual: type(Team_Event_Status_rank, "|", "null").optional(),
+	alliance: type(Team_Event_Status_alliance, "|", "null").optional(),
 });
 
-export const Elimination_Alliance = z.object({
-	name: z.string().nullable().optional(),
-	backup: z.object({
-		in: z.string(),
-		out: z.string(),
-	}).nullable().optional(),
-	declines: z.array(z.string()),
-	picks: z.array(z.string()),
-	status: z.object({
-		playoff_average: z.number().nullable(),
-		level: z.string(),
-		record: WLT_Record.nullable(),
-		current_level_record: WLT_Record.nullable(),
-		status: z.string(),
+export const Elimination_Alliance = type({
+	name: "(string | null)?",
+	backup: type({
+		in: "string",
+		out: "string",
+	}, "|", "null").optional(),
+	declines: "string[]",
+	picks: "string[]",
+	status: type({
+		playoff_average: "number | null",
+		level: "string",
+		record: type(WLT_Record, "|", "null"),
+		current_level_record: type(WLT_Record, "|", "null"),
+		status: "string",
 	}).partial().optional(),
 });
