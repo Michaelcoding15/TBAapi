@@ -1,7 +1,6 @@
 import { expect, test } from "vitest";
 import { EVENT_KEY, getKeys, MEDIA_TAG, PAGE_NUM, TBA, TEAM_KEY, YEAR_NUM } from "./index.js";
 import { teamEndpoints } from "../src/types/endpoints/teams.js";
-import { z } from "zod";
 
 const tests = {
 	"/teams/{page_num}": [PAGE_NUM],
@@ -37,7 +36,7 @@ const tests = {
 	"/team/{team_key}/media/tag/{media_tag}": ["frc2614", MEDIA_TAG],
 	"/team/{team_key}/media/tag/{media_tag}/{year}": ["frc2614", MEDIA_TAG, 2017],
 	"/team/{team_key}/social_media": [TEAM_KEY],
-} satisfies { [key in keyof typeof teamEndpoints]: z.infer<(typeof teamEndpoints)[key]["arguments"]> };
+} satisfies { [key in keyof typeof teamEndpoints]: (typeof teamEndpoints)[key]["arguments"]["infer"] };
 
 for (const endpoint of getKeys(tests)) {
 	test(endpoint, async () => {

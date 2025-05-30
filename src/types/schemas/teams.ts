@@ -1,47 +1,47 @@
-import { z } from "zod";
+import { type } from "arktype";
 
-export const Team_Simple = z.object({
-	key: z.string().regex(/frc\d+/),
-	team_number: z.int(),
-	nickname: z.string(),
-	name: z.string(),
-	city: z.string().nullable(),
-	state_prov: z.string().nullable(),
-	country: z.string().nullable(),
+export const Team_Simple = type({
+	key: "string",
+	team_number: "number",
+	nickname: "string",
+	name: "string",
+	city: "string | null",
+	state_prov: "string | null",
+	country: "string | null",
 });
 
-export const Team = Team_Simple.extend({
-	postal_code: z.string().nullable(),
-	website: z.string().nullable().optional(),
-	rookie_year: z.number().nullable(),
-})
-
-export const Award_Recipient = z.object({
-	team_key: z.string().nullable(),
-	awardee: z.string().nullable(),
+export const Team = Team_Simple.and({
+	postal_code: "string | null",
+	"website?": "string | null",
+	rookie_year: "number | null",
 });
 
-export const Award = z.object({
-	name: z.string(),
-	award_type: z.int(),
-	event_key: z.string(),
-	recipient_list: z.array(Award_Recipient),
-	year: z.int(),
+export const Award_Recipient = type({
+	team_key: "string | null",
+	awardee: "string | null",
 });
 
-export const Team_Robot = z.object({
-	year: z.int(),
-	robot_name: z.string(),
-	key: z.string(),
-	team_key: z.string(),
+export const Award = type({
+	name: "string",
+	award_type: "number",
+	event_key: "string",
+	recipient_list: Award_Recipient.array(),
+	year: "number",
 });
 
-export const Media = z.object({
-	type: z.string(),
-	foreign_key: z.string(),
-	details: z.record(z.any(), z.any()).nullable().optional(),
-	preferred: z.boolean().optional(),
-	team_keys: z.array(z.string()),
-	direct_url: z.string().optional(),
-	view_url: z.string().optional(),
+export const Team_Robot = type({
+	year: "number",
+	robot_name: "string",
+	key: "string",
+	team_key: "string",
+});
+
+export const Media = type({
+	type: "string",
+	foreign_key: "string",
+	"details?": type({ "[string]": "unknown" }),
+	preferred: "boolean?",
+	team_keys: "string[]",
+	direct_url: "string?",
+	view_url: "string?",
 });

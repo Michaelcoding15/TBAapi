@@ -1,6 +1,6 @@
-import { z } from "zod";
 import { Result, tryCatch } from "./utils.js";
 import { endpoints, TBAEndpoint, TBAEndpoints } from "./types/endpoints/index.js";
+import { ArkErrors } from "arktype";
 
 /*
  * Creates a function that can call the TBA api.
@@ -8,11 +8,11 @@ import { endpoints, TBAEndpoint, TBAEndpoints } from "./types/endpoints/index.js
  * @param api_key The api key given to you from The Blue Alliance.
  * @returns A function that can request from any endpoint in the TBA api. Go to the TBA api docs to see more information on endpoints and arguments required.
  */
-export function createTBACaller(api_key: string): <T extends TBAEndpoint>(endpoint: T, ...args: z.infer<TBAEndpoints[T]["arguments"]>) => Promise<Result<z.infer<TBAEndpoints[T]["schema"]>>> {
-	return async <T extends TBAEndpoint>(endpoint: T, ...args: z.infer<TBAEndpoints[T]["arguments"]>) => await TBA(endpoint, api_key, ...args);
+export function createTBACaller(api_key: string): <T extends TBAEndpoint>(endpoint: T, ...args: TBAEndpoints[T]["arguments"]["infer"]) => Promise<Result<TBAEndpoints[T]["schema"]["infer"]>> {
+	return async <T extends TBAEndpoint>(endpoint: T, ...args: TBAEndpoints[T]["arguments"]["infer"]) => await TBA(endpoint, api_key, ...args);
 }
 
-async function TBA<T extends TBAEndpoint>(endpoint: T, api_key: string, ...args: z.infer<TBAEndpoints[T]["arguments"]>): Promise<Result<z.infer<TBAEndpoints[T]["schema"]>>> {
+async function TBA<T extends TBAEndpoint>(endpoint: T, api_key: string, ...args: TBAEndpoints[T]["arguments"]["infer"]): Promise<Result<TBAEndpoints[T]["schema"]["infer"]>> {
 	let numArg = -1;
 
 	// Fills all the arguments that are needed.
@@ -42,11 +42,11 @@ async function TBA<T extends TBAEndpoint>(endpoint: T, api_key: string, ...args:
 		error: new Error(`JSON didn't parse for endpoint ${endpoint}. Please contact the developers of the TBArequest package with this error: ${json.error.message}`),
 	};
 
-	const schema = endpoints[endpoint].schema.safeParse(json.data);
-	if (!schema.success) return {
+	const schema = endpoints[endpoint].schema(json.data);
+	if (schema instanceof ArkErrors) return {
 		data: null,
-		error: new Error(`Schema for endpoint ${endpoint} didn't work. Please contact the developers of the TBArequest package with this error: ${schema.error.message}`),
+		error: new Error(`Schema for endpoint ${endpoint} didn't work. Please contact the developers of the TBArequest package with this error: ${schema}`),
 	};
 
-	return { data: schema.data, error: null };
+	return { data: schema, error: null };
 }

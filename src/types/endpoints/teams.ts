@@ -1,141 +1,143 @@
-import { z } from "zod";
 import { Award, Media, Team, Team_Robot, Team_Simple } from "../schemas/teams.js";
 import { Endpoints } from "../index.js";
 import { Event, Event_Simple, Team_Event_Status } from "../schemas/events.js";
 import { District_List } from "../schemas/districts.js";
 import { Match, Match_Simple } from "../schemas/matches.js";
+import { type } from "arktype";
 
 export const teamEndpoints = {
 	"/teams/{page_num}": {
-		schema: z.array(Team),
-		arguments: z.tuple([z.number()]),
+		schema: Team.array(),
+		arguments: type(["number"]),
 	},
 	"/teams/{page_num}/simple": {
-		schema: z.array(Team_Simple),
-		arguments: z.tuple([z.number()]),
+		schema: Team_Simple.array(),
+		arguments: type(["number"]),
 	},
 	"/teams/{page_num}/keys": {
-		schema: z.array(z.string()),
-		arguments: z.tuple([z.number()]),
+		schema: type("string[]"),
+		arguments: type(["number"]),
 	},
 	"/teams/{year}/{page_num}": {
-		schema: z.array(Team),
-		arguments: z.tuple([z.number(), z.number()]),
+		schema: Team.array(),
+		arguments: type(["number", "number"]),
 	},
 	"/teams/{year}/{page_num}/simple": {
-		schema: z.array(Team_Simple),
-		arguments: z.tuple([z.number(), z.number()]),
+		schema: Team_Simple.array(),
+		arguments: type(["number", "number"]),
 	},
 	"/teams/{year}/{page_num}/keys": {
-		schema: z.array(z.string()),
-		arguments: z.tuple([z.number(), z.number()]),
+		schema: type("string[]"),
+		arguments: type(["number", "number"]),
 	},
 	"/team/{team_key}": {
 		schema: Team,
-		arguments: z.tuple([z.string()]),
+		arguments: type(["string"]),
 	},
 	"/team/{team_key}/simple": {
 		schema: Team_Simple,
-		arguments: z.tuple([z.string()]),
+		arguments: type(["string"]),
 	},
 	"/team/{team_key}/history": {
-		schema: z.object({ events: z.array(Event), awards: z.array(Award) }),
-		arguments: z.tuple([z.string()]),
+		schema: type({ events: Event.array(), awards: Award.array() }),
+		arguments: type(["string"]),
 	},
 	"/team/{team_key}/years_participated": {
-		schema: z.array(z.number()),
-		arguments: z.tuple([z.string()]),
+		schema: type("number[]"),
+		arguments: type(["string"]),
 	},
 	"/team/{team_key}/districts": {
-		schema: z.array(District_List),
-		arguments: z.tuple([z.string()]),
+		schema: District_List.array(),
+		arguments: type(["string"]),
 	},
 	"/team/{team_key}/robots": {
-		schema: z.array(Team_Robot),
-		arguments: z.tuple([z.string()]),
+		schema: Team_Robot.array(),
+		arguments: type(["string"]),
 	},
 	"/team/{team_key}/events": {
-		schema: z.array(Event),
-		arguments: z.tuple([z.string()]),
+		schema: Event.array(),
+		arguments: type(["string"]),
 	},
 	"/team/{team_key}/events/simple": {
-		schema: z.array(Event_Simple),
-		arguments: z.tuple([z.string()]),
+		schema: Event_Simple.array(),
+		arguments: type(["string"]),
 	},
 	"/team/{team_key}/events/keys": {
-		schema: z.array(z.string()),
-		arguments: z.tuple([z.string()]),
+		schema: type("string[]"),
+		arguments: type(["string"]),
 	},
 	"/team/{team_key}/events/{year}": {
-		schema: z.array(Event),
-		arguments: z.tuple([z.string(), z.int()]),
+		schema: Event.array(),
+		arguments: type(["string", "number"]),
 	},
 	"/team/{team_key}/events/{year}/simple": {
-		schema: z.array(Event_Simple),
-		arguments: z.tuple([z.string(), z.int()]),
+		schema: Event_Simple.array(),
+		arguments: type(["string", "number"]),
 	},
 	"/team/{team_key}/events/{year}/keys": {
-		schema: z.array(z.string()),
-		arguments: z.tuple([z.string(), z.int()]),
+		schema: type("string[]"),
+		arguments: type(["string", "number"]),
 	},
 	"/team/{team_key}/events/{year}/statuses": {
-		schema: z.record(z.string(), Team_Event_Status.nullable()),
-		arguments: z.tuple([z.string(), z.int()]),
+		schema: type({
+			"[string]": Team_Event_Status,
+		}),
+		arguments: type(["string", "number"]),
 	},
 	"/team/{team_key}/event/{event_key}/matches": {
-		schema: z.array(Match),
-		arguments: z.tuple([z.string(), z.string()]),
+		schema: Match.array(),
+		arguments: type(["string", "string"]),
 	},
 	"/team/{team_key}/event/{event_key}/matches/simple": {
-		schema: z.array(Match_Simple),
-		arguments: z.tuple([z.string(), z.string()]),
+		schema: Match_Simple.array(),
+		arguments: type(["string", "string"]),
 	},
 	"/team/{team_key}/event/{event_key}/matches/keys": {
-		schema: z.array(z.string()),
-		arguments: z.tuple([z.string(), z.string()]),
+		schema: type("string[]"),
+		arguments: type(["string", "string"]),
 	},
 	"/team/{team_key}/event/{event_key}/awards": {
-		schema: z.array(Award),
-		arguments: z.tuple([z.string(), z.string()]),
+		schema: Award.array(),
+		arguments: type(["string", "string"]),
 	},
 	"/team/{team_key}/event/{event_key}/status": {
-		schema: Team_Event_Status.nullable(),
-		arguments: z.tuple([z.string(), z.string()]),
+		schema: type(Team_Event_Status, "|", "null"),
+		arguments: type(["string", "string"]),
 	},
 	"/team/{team_key}/awards": {
-		schema: z.array(Award),
-		arguments: z.tuple([z.string()]),
+		schema: Award.array(),
+		arguments: type(["string"]),
 	},
 	"/team/{team_key}/awards/{year}": {
-		schema: z.array(Award),
-		arguments: z.tuple([z.string(), z.number()]),
+		schema: Award.array(),
+		arguments: type(["string", "number"]),
 	},
 	"/team/{team_key}/matches/{year}": {
-		schema: z.array(Match),
-		arguments: z.tuple([z.string(), z.number()]),
+		schema: Match.array(),
+		arguments: type(["string", "number"]),
 	},
 	"/team/{team_key}/matches/{year}/simple": {
-		schema: z.array(Match_Simple),
-		arguments: z.tuple([z.string(), z.number()]),
+		schema: Match_Simple.array(),
+		arguments: type(["string", "number"]),
 	},
 	"/team/{team_key}/matches/{year}/keys": {
-		schema: z.array(z.string()),
-		arguments: z.tuple([z.string(), z.number()]),
+		schema: type("string[]"),
+		arguments: type(["string", "number"]),
 	},
 	"/team/{team_key}/media/{year}": {
-		schema: z.array(Media),
-		arguments: z.tuple([z.string(), z.number()]),
+		schema: Media.array(),
+		arguments: type(["string", "number"]),
 	},
 	"/team/{team_key}/media/tag/{media_tag}": {
-		schema: z.array(Media),
-		arguments: z.tuple([z.string(), z.string()]),
+		schema: Media.array(),
+		arguments: type(["string", "string"]),
 	},
 	"/team/{team_key}/media/tag/{media_tag}/{year}": {
-		schema: z.array(Media),
-		arguments: z.tuple([z.string(), z.string(), z.int()]),
+		schema: Media.array(),
+		arguments: type(["string", "string", "number"]),
 	},
 	"/team/{team_key}/social_media": {
-		schema: z.array(Media),
-		arguments: z.tuple([z.string()]),
+		schema: Media.array(),
+		arguments: type(["string"]),
 	},
 } satisfies Endpoints;

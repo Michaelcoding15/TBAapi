@@ -1,52 +1,52 @@
 import { Endpoints } from "../index.js";
-import { z } from "zod";
 import { District_Advancement, District_List, District_Ranking } from "../schemas/districts.js";
 import { Event, Event_Simple } from "../schemas/events.js";
 import { Award, Team, Team_Simple } from "../schemas/teams.js";
+import { type } from "arktype";
 
 export const districtEndpoints = {
 	"/districts/{year}": {
-		schema: z.array(District_List),
-		arguments: z.tuple([z.int()]),
+		schema: District_List.array(),
+		arguments: type(["number"]),
 	},
 	"/district/{district_abbreviation}/history": {
-		schema: z.array(District_List),
-		arguments: z.tuple([z.string()]),
+		schema: District_List.array(),
+		arguments: type(["string"]),
 	},
 	"/district/{district_key}/events": {
-		schema: z.array(Event),
-		arguments: z.tuple([z.string()]),
+		schema: Event.array(),
+		arguments: type(["string"]),
 	},
 	"/district/{district_key}/awards": {
-		schema: z.array(Award),
-		arguments: z.tuple([z.string()]),
+		schema: Award.array(),
+		arguments: type(["string"]),
 	},
 	"/district/{district_key}/events/simple": {
-		schema: z.array(Event_Simple),
-		arguments: z.tuple([z.string()]),
+		schema: Event_Simple.array(),
+		arguments: type(["string"]),
 	},
 	"/district/{district_key}/events/keys": {
-		schema: z.array(z.string()),
-		arguments: z.tuple([z.string()]),
+		schema: type("string[]"),
+		arguments: type(["string"]),
 	},
 	"/district/{district_key}/teams": {
-		schema: z.array(Team),
-		arguments: z.tuple([z.string()]),
+		schema: Team.array(),
+		arguments: type(["string"]),
 	},
 	"/district/{district_key}/teams/simple": {
-		schema: z.array(Team_Simple),
-		arguments: z.tuple([z.string()]),
+		schema: Team_Simple.array(),
+		arguments: type(["string"]),
 	},
 	"/district/{district_key}/teams/keys": {
-		schema: z.array(z.string()),
-		arguments: z.tuple([z.string()]),
+		schema: type("string[]"),
+		arguments: type(["string"]),
 	},
 	"/district/{district_key}/rankings": {
-		schema: z.array(District_Ranking).nullable(),
-		arguments: z.tuple([z.string()]),
+		schema: type(District_Ranking.array(), "|", "null"),
+		arguments: type(["string"]),
 	},
 	"/district/{district_key}/advancement": {
-		schema: z.record(z.string(), District_Advancement).nullable(),
-		arguments: z.tuple([z.string()]),
+		schema: type({ "[string]": District_Advancement }, "|", "null"),
+		arguments: type(["string"]),
 	},
 } satisfies Endpoints;

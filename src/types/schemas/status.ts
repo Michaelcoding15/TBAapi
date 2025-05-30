@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { type } from "arktype";
 
-export const API_Status_App_Version = z.object({
-	min_app_version: z.int(),
-	latest_app_version: z.int(),
+export const API_Status_App_Version = type({
+	min_app_version: "number",
+	latest_app_version: "number",
 });

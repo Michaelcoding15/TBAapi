@@ -1,25 +1,25 @@
-import { z } from "zod";
+import { type } from "arktype";
 
-export const Regional_Advancement = z.object({
-	cmp: z.boolean(),
-	cmp_status: z.enum(["NotInvited", "PreQualified", "EventQualified", "PoolQualified", "Declined"]),
-	qualifying_event: z.string().optional(),
-	qualifying_award_name: z.string().optional(),
-	qualifying_pool_week: z.int().optional(),
+export const Regional_Advancement = type({
+	cmp: "boolean",
+	cmp_status: "'NotInvited' | 'PreQualified' | 'EventQualified' | 'PoolQualified' | 'Declined'",
+	qualifying_event: "string?",
+	qualifying_award_name: "string?",
+	qualifying_pool_week: "number?",
 });
 
-export const Regional_Ranking = z.object({
-	team_key: z.string(),
-	rank: z.int(),
-	rookie_bonus: z.int().optional(),
-	point_total: z.number(),
-	single_event_bonus: z.number(),
-	event_points: z.array(z.object({
-		total: z.number(),
-		alliance_points: z.number(),
-		elim_points: z.number(),
-		award_points: z.number(),
-		event_key: z.string(),
-		qual_points: z.number(),
-	})).optional(),
+export const Regional_Ranking = type({
+	team_key: "string",
+	rank: "number",
+	rookie_bonus: "number?",
+	point_total: "number",
+	single_event_bonus: "number?",
+	event_points: type({
+		total: "number",
+		alliance_points: "number",
+		elim_points: "number",
+		award_points: "number",
+		event_key: "string",
+		qual_points: "number",
+	}).array(),
 });
