@@ -15,8 +15,8 @@ import { createTBACaller } from "tbarequest";
 
 const tba = createTBACaller("api_key")
 
-const status = tba("/status")
-const team = tba("/teams/{team_key}", 1014)
+const status = await tba("/status")
+const team = await tba("/teams/{team_key}", 1014)
 ```
 
 The `tba` function can call an endpoint and require all necessary arguments, and then return the results that are type-safe.
