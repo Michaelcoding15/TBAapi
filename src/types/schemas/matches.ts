@@ -467,48 +467,58 @@ export const matchScoreBreakdownYearsAlliances = {
 } satisfies { [key: string]: Type };
 
 export const matchScoreBreakdownYearsMatches = {
-	"2015": type({
-		red: matchScoreBreakdownYearsAlliances["2015"],
-		blue: matchScoreBreakdownYearsAlliances["2015"],
-		coopertition: "'None' | 'Unknown' | 'Stack'",
-		coopertition_points: "number",
-	}),
-	"2016": type({
-		red: matchScoreBreakdownYearsAlliances["2016"],
-		blue: matchScoreBreakdownYearsAlliances["2016"],
-	}),
-	"2017": type({
-		red: matchScoreBreakdownYearsAlliances["2017"],
-		blue: matchScoreBreakdownYearsAlliances["2017"],
-	}),
-	"2018": type({
-		red: matchScoreBreakdownYearsAlliances["2018"],
-		blue: matchScoreBreakdownYearsAlliances["2018"],
-	}),
-	"2019": type({
-		red: matchScoreBreakdownYearsAlliances["2019"],
-		blue: matchScoreBreakdownYearsAlliances["2019"],
-	}),
-	"2020": type({
-		red: matchScoreBreakdownYearsAlliances["2020"],
-		blue: matchScoreBreakdownYearsAlliances["2020"],
-	}),
-	"2022": type({
-		red: matchScoreBreakdownYearsAlliances["2022"],
-		blue: matchScoreBreakdownYearsAlliances["2022"],
-	}),
-	"2023": type({
-		red: matchScoreBreakdownYearsAlliances["2023"],
-		blue: matchScoreBreakdownYearsAlliances["2023"],
-	}),
-	"2024": type({
-		red: matchScoreBreakdownYearsAlliances["2024"],
-		blue: matchScoreBreakdownYearsAlliances["2024"],
-	}),
-	"2025": type({
-		red: matchScoreBreakdownYearsAlliances["2025"],
-		blue: matchScoreBreakdownYearsAlliances["2025"],
-	}),
+  "2015": type({
+    red: matchScoreBreakdownYearsAlliances["2015"],
+    blue: matchScoreBreakdownYearsAlliances["2015"],
+    coopertition: "'None' | 'Unknown' | 'Stack'",
+    coopertition_points: "number",
+    yearOfCompetition: "2015",
+  }),
+  "2016": type({
+    red: matchScoreBreakdownYearsAlliances["2016"],
+    blue: matchScoreBreakdownYearsAlliances["2016"],
+    yearOfCompetition: "2016",
+  }),
+  "2017": type({
+    red: matchScoreBreakdownYearsAlliances["2017"],
+    blue: matchScoreBreakdownYearsAlliances["2017"],
+    yearOfCompetition: "2017",
+  }),
+  "2018": type({
+    red: matchScoreBreakdownYearsAlliances["2018"],
+    blue: matchScoreBreakdownYearsAlliances["2018"],
+    yearOfCompetition: "2018",
+  }),
+  "2019": type({
+    red: matchScoreBreakdownYearsAlliances["2019"],
+    blue: matchScoreBreakdownYearsAlliances["2019"],
+    yearOfCompetition: "2019",
+  }),
+  "2020": type({
+    red: matchScoreBreakdownYearsAlliances["2020"],
+    blue: matchScoreBreakdownYearsAlliances["2020"],
+    yearOfCompetition: "2020",
+  }),
+  "2022": type({
+    red: matchScoreBreakdownYearsAlliances["2022"],
+    blue: matchScoreBreakdownYearsAlliances["2022"],
+    yearOfCompetition: "2022",
+  }),
+  "2023": type({
+    red: matchScoreBreakdownYearsAlliances["2023"],
+    blue: matchScoreBreakdownYearsAlliances["2023"],
+    yearOfCompetition: "2023",
+  }),
+  "2024": type({
+    red: matchScoreBreakdownYearsAlliances["2024"],
+    blue: matchScoreBreakdownYearsAlliances["2024"],
+    yearOfCompetition: "2024",
+  }),
+  "2025": type({
+    red: matchScoreBreakdownYearsAlliances["2025"],
+    blue: matchScoreBreakdownYearsAlliances["2025"],
+    yearOfCompetition: "2025",
+  }),
 } satisfies { [key: string]: Type };
 
 const msb = matchScoreBreakdownYearsMatches;

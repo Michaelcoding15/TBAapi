@@ -42,7 +42,30 @@ async function TBA<T extends TBAEndpoint>(endpoint: T, api_key: string, ...args:
 		error: new Error(`JSON didn't parse for endpoint ${endpoint}. Please contact the developers of the TBArequest package with this error: ${json.error.message}`),
 	};
 
-	const schema = endpoints[endpoint].schema(json.data);
+	if ("transformMatch" in endpoints[endpoint]) {
+		let data;
+		switch (endpoint) {
+      case "/event/{event_key}/matches":
+      case "/match/{match_key}": {
+        data = { key: args[0] };
+        break;
+      }
+      case "/team/{team_key}/event/{event_key}/matches": {
+        data = { key: args[1] };
+        break;
+      }
+      case "/team/{team_key}/matches/{year}": {
+        data = { year: args[1] };
+        break;
+      }
+      default: {
+        data = {};
+      }
+    }
+    json.data = endpoints[endpoint].transformMatch(data as { key?: string, year?: number }, json.data);
+  }
+
+	let schema = endpoints[endpoint].schema(json.data);
 	if (schema instanceof ArkErrors) return {
 		data: null,
 		error: new Error(`Schema for endpoint ${endpoint} didn't work. Please contact the developers of the TBArequest package with this error: ${schema}`),

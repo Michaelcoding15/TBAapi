@@ -6,7 +6,6 @@ export const regionalAdvancementEndpoints = {
 	"/regional_advancement/{year}": {
 		schema: type({ "[string]": Regional_Advancement }),
 		arguments: type(["number"]),
-		optional: true,
 	},
 	"/regional_advancement/{year}/rankings": {
 		schema: Regional_Ranking.array(),
